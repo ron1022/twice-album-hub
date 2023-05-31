@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+     
+
+  
+    />
+    <title>DUMALAY CRUD</title>
+  </head>
+  <body>
+
+
+    <br>
+    <div class="container" style=" max-width: 500px">
+      <form>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Full Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Rollbox"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label"> Address:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Addbox"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label"> Album Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Albumbox"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label"> Date: (mm/dd/yy)</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Datebox"
+          />
+        </div>  
+        <div class="mb-3">
+          <label> Quantity:</label> <select id="Quanbox">
+
+            <option value="J&T Express">J&T Express</option>
+            <option value="Flash Express">Flash Express</option>
+            <option value="LBC Pick Up">LBC Pick Up</option>
+            <option value="Ninjavan">Ninjavan</option>
+      
+        </select>
+
+      </div>
+
+      <div class="mb-3">
+        <label> Courier:</label> <select id="Coubox">
+
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+      </select>
+
+    </div>
+          <button type="button" class="btn btn-primary" id="Insbtn">INSERT</button>
+          <button type="button" class="btn btn-primary" id="Selbtn">SELECT</button>
+          <button type="button" class="btn btn-primary" id="Updbtn">UPDATE</button>
+          <button type="button" class="btn btn-primary" id="Delbtn">DELETE</button>
+        </div>
+       
+      </form>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+      crossorigin="anonymous"></script>
+
+      <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyDDVTUQR9EgcpEtZbuqLv_TjJYl_TwgoiY",
+          authDomain: "register-login-a06cc.firebaseapp.com",
+          databaseURL: "https://register-login-a06cc-default-rtdb.firebaseio.com",
+          projectId: "register-login-a06cc",
+          storageBucket: "register-login-a06cc.appspot.com",
+          messagingSenderId: "741674875846",
+          appId: "1:741674875846:web:b069dfc72ce17480c290c7",
+          measurementId: "G-TF3PQR9LLN"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    
+    
+
+        import {getDatabase, ref, set, child, update, remove, get}
+        from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js"
+
+
+    const db = getDatabase();
+
+    // references
+
+
+        var rollbox = document.getElementById("Rollbox");
+        var addbox = document.getElementById("Addbox");
+        var albumbox = document.getElementById("Albumbox");
+        var datebox = document.getElementById("Datebox");
+        var quanbox = document.getElementById("Quanbox");
+        var coubox = document.getElementById("Coubox");
+       
+
+
+        var insBtn = document.getElementById("Insbtn")
+        var selBtn = document.getElementById("Selbtn")
+        var updBtn = document.getElementById("Updbtn")
+        var delBtn = document.getElementById("Delbtn")
+
+        // add data function
+
+        function InsertData(){
+            set(ref(db, "TwiceAlbum/"+ rollbox.value),{
+                Name: rollbox.value,
+                Address: addbox.value,
+                AlbumName: albumbox.value,
+                Date: datebox.value,
+                Quantity: quanbox.value,
+                Courier: coubox.value
+              
+              })
+            .then(()=>{
+                alert("data stored succesfully");
+            })
+            .catch((error)=>{
+                alert("unsuccesful, error" + error)
+            });
+        }
+              //update data function
+
+              function UpdateData(){
+            update(ref(db, "TwiceAlbum/"+ rollbox.value),{
+              Address: addbox.value,
+                AlbumName: albumbox.value,
+                Date: datebox.value,
+                Quantity: quanbox.value,
+                Courier: coubox.value
+               
+            })
+            .then(()=>{
+                alert("data updated successfully");
+            })
+            .catch((error)=>{
+                alert("unsuccesful, error" + error)
+            });
+        }
+
+
+
+          //Select data function//
+      
+      function SelectData(){
+          const dbref = ref(db);
+      
+          get(child(dbref, "TwiceAlbum/"+ rollbox.value)).then((snapshot)=>{
+              if (snapshot.exists ()){
+                    addbox.value = snapshot.val().Address;
+                    albumbox.value = snapshot.val().AlbumName;
+                    datebox.value = snapshot.val().Date;
+                    quanbox.value = snapshot.val().Quantity;
+                   
+      
+              }
+              else{
+                  alert("No data found")
+              }
+          })
+          .catch((error)=>{
+              alert("unseccesful, error"+ error);
+          });
+      }
+      
+//delete function
+
+function DeleteData(){
+          remove(ref(db, "TwiceAlbum/"+ rollbox.value))
+          .then(()=>{
+              alert("data removed succesfully");
+          })
+          .catch((error)=>{
+              alert("unseccesful, error"+ error);
+          });
+      }
+
+
+
+
+        // Aasign event button
+        insBtn.addEventListener('click', InsertData);
+        selBtn.addEventListener('click', SelectData);
+        updBtn.addEventListener('click', UpdateData);
+      delBtn.addEventListener('click', DeleteData);
+
+
+     
+ 
+      </script>
+      
+    
+
+
+  </body>
+</html>
